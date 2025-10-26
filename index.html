@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MiniWorld — Sign in</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap">
+    <h1 class="logo">MiniWorld</h1>
+    <p class="tag">Play · Build · Share — Secure access with Telegram UID</p>
+
+    <form id="loginForm" class="card">
+      <label>UID (10 digits)
+        <input id="uid" placeholder="0000000000" maxlength="10" />
+      </label>
+      <label>Password
+        <input id="password" placeholder="World@1234" type="password" />
+      </label>
+
+      <div class="row">
+        <button id="signin" class="btn primary">Sign In</button>
+        <button id="getuid" type="button" class="btn secondary">Get UID (Telegram)</button>
+      </div>
+
+      <div class="links">
+        <a id="forgot" href="#">Forgot password?</a>
+        <a id="changepwd" href="#">Change password</a>
+      </div>
+
+      <p id="status" class="status"></p>
+
+      <p class="small">Default password for new users: <strong>World@1234</strong></p>
+      <p class="small">Telegram bot: <a id="botlink" href="#" target="_blank">@MiniWorldUIDBot</a></p>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

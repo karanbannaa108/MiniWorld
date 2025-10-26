@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "uid": "0000000001",
+      "password": "World@1234",
+      "name": "Sample Player 1",
+      "telegram": "@sample1"
+    },
+    {
+      "uid": "0000000002",
+      "password": "World@1234",
+      "name": "Sample Player 2",
+      "telegram": "@sample2"
+    }
+  ]
+}
