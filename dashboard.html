@@ -1,32 +1,35 @@
-...
-<div id="dashboard-content">
-   <!-- Tere dashboard ka main content -->
-</div>
-
-<!-- Add script yaha -->
 <script>
 async function loadData() {
   try {
-    const statsRes = await fetch('/api/stats');
+    // Base API URL
+    const baseURL = "https://mini-world-eight.vercel.app";
+
+    // Get stats
+    const statsRes = await fetch(`${baseURL}/api/stats`);
     const stats = await statsRes.json();
 
-    const usersRes = await fetch('/api/users');
+    // Get users
+    const usersRes = await fetch(`${baseURL}/api/users`);
     const users = await usersRes.json();
 
-    const settingsRes = await fetch('/api/settings');
+    // Get settings
+    const settingsRes = await fetch(`${baseURL}/api/settings`);
     const settings = await settingsRes.json();
 
+    // Update dashboard
     document.getElementById("total-users").innerText = stats.data.totalUsers;
     document.getElementById("active-users").innerText = stats.data.activeUsers;
     document.getElementById("premium-users").innerText = stats.data.premiumUsers;
     document.getElementById("version").innerText = settings.version;
     document.getElementById("developer").innerText = settings.developer;
 
+    // Show users list
     let userList = "";
     users.users.forEach(u => {
-      userList += `<li>${u.name} (UID: ${u.uid}) — ${u.status}</li>`;
+      userList += `<li>${u.name} (UID: ${u.uid}) - ${u.status}</li>`;
     });
     document.getElementById("user-list").innerHTML = userList;
+
   } catch (e) {
     console.error(e);
     alert("Failed to load dashboard data!");
@@ -35,5 +38,3 @@ async function loadData() {
 
 window.onload = loadData;
 </script>
-</body>
-</html>
