@@ -1,39 +1,40 @@
-// Frontend logic (simple, wired to the server endpoints shipped with this bundle)
-const BOT_USERNAME = "@MiniWorldUIDBot"; // shown, not used by frontend directly
-document.getElementById('botlink').href = "https://t.me/MiniWorldUIDBot";
-document.getElementById('botlink').textContent = BOT_USERNAME;
-
-async function postJson(url, data){
-  const res = await fetch(url, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
-  return res.json();
-}
-
-const statusEl = document.getElementById('status');
-document.getElementById('signin').onclick = async (e)=>{
+document.getElementById("loginForm").addEventListener("submit", async function (e) {
   e.preventDefault();
-  const uid = document.getElementById('uid').value.trim();
-  const pwd = document.getElementById('password').value;
-  if(!/^\d{10}$/.test(uid)){ statusEl.textContent = 'UID must be 10 digits.'; return; }
-  try{
-    statusEl.textContent = 'Signing in...';
-    const j = await postJson('/api/signin',{uid,pwd});
-    if(j.ok){ window.location.href = '/dashboard.html'; }
-    else statusEl.textContent = j.error || 'Invalid UID or password.';
-  }catch(err){ statusEl.textContent = 'Network error.'; }
-}
 
-document.getElementById('getuid').onclick = ()=>{
-  window.open('https://t.me/Fflikesbot108', '_blank');
-}
+  const uid = document.getElementById("uid").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const statusText = document.getElementById("status");
 
-// small dashboard routing
-if(location.pathname.endsWith('/dashboard.html')){
-  const content = document.getElementById('content');
-  document.getElementById('btnUsers').onclick = async ()=>{
-    const res = await fetch('/api/users'); const j = await res.json();
-    content.innerHTML = '<h3>Users</h3><pre>'+JSON.stringify(j, null,2)+'</pre>';
+  if (!uid || !password) {
+    statusText.textContent = "Please enter both UID and Password.";
+    statusText.style.color = "red";
+    return;
   }
-  document.getElementById('btnManage').onclick = ()=> content.innerHTML = '<h3>Manage</h3><p>Placeholder manage tools.</p>';
-  document.getElementById('btnSettings').onclick = ()=> content.innerHTML = '<h3>Settings</h3><p>App settings placeholder.</p>';
-  document.getElementById('logout').onclick = ()=> location.href = '/';
-}
+
+  statusText.textContent = "Connecting...";
+  statusText.style.color = "#00bfff";
+
+  try {
+    const res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ uid, password }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      statusText.textContent = "✅ Login Successful! Welcome " + data.name;
+      statusText.style.color = "lime";
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 1500);
+    } else {
+      statusText.textContent = "❌ " + data.message;
+      statusText.style.color = "red";
+    }
+  } catch (err) {
+    statusText.textContent = "⚠️ Network Error. Please try again.";
+    statusText.style.color = "orange";
+  }
+});
