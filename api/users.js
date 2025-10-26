@@ -2,9 +2,10 @@ export default function handler(req, res) {
   res.status(200).json({
     success: true,
     users: [
-      { uid: "1000000001", name: "Karan Singh", level: 15, status: "online" },
-      { uid: "1000000002", name: "Suraj Meena", level: 12, status: "offline" },
-      { uid: "1000000003", name: "Ravi Kumar", level: 8, status: "active" }
+      { name: "Karan Singh", uid: "1000000001", status: "active" },
+      { name: "Suraj Meena", uid: "1000000002", status: "premium" },
+      { name: "Vikas", uid: "1000000003", status: "active" },
+      { name: "Dev Panel", uid: "1000000004", status: "admin" }
     ]
   });
 }
